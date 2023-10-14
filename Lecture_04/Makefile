@@ -1,26 +1,42 @@
 CC = gcc
-PROG = main
+libmode = dinamic
+LIB = lib
+HEADERS = ${wildcard *.h}
 
 all: main
 
-main: main.o lib/libbst.a
-	${CC} -o $@ $< -L./lib -lbst
+ifeq "static" "${libmode}"
+main: main.o ${LIB}/libbst.a
+	${CC} -o $@ $< -L./${LIB} -lbst	
+else
+main: main.o ${LIB}/libbstd.so 
+	${CC} -o $@ $< -L./${LIB} -lbstd
+endif
 
 main.o: main.c node.h tree.h
 	${CC} -c $<
 	
-node.o: node.c node.h
-	${CC} -c $<
+%.o: %.c ${HEADERS}
+ifeq "static" "${libmode}"
+	${CC} -c $<	
+else
+	${CC} -c -fPIC $<
+endif
 
-tree.o: tree.c tree.h
-	${CC} -c $<
+${LIB}:
+	mkdir $@
 
-lib:
-	mkdir lib
-
-lib/libbst.a: tree.o node.o lib
+${LIB}/libbst.a: tree.o node.o ${LIB}
 	ar rs $@ $< node.o
 
+${LIB}/libbstd.so: node.o tree.o ${LIB}
+	${CC} -shared -o $@ $< tree.o 	
+
+.PHONY: clean clean-all
 clean: 
 	rm -f *.o
-	rm -f ${PROG}
+	
+clean-all: clean
+	rm -rf ${LIB}/*.a ${LIB}/*.so
+	rmdir ${LIB}
+	rm main
