@@ -18,16 +18,69 @@ int * random_vector(int len)
 }
 
 int binary_search(int * v, int len, int key) {
+  int l = 0;
+  int r = len;
+
+  while (l<r) { // log_2(n) iterazioni
+    int m = (l+r)/2;
+    if (v[m] >= key)
+      r = m;
+    else
+      l = m+1;
+  }
+
+  if (v[l] == key) {
+    return l;
+  } else {
   return -1;
+  }
 }
 
 int binary_search_branchless(int * v, int len, int key) {
+  int l = 0;
+  int r = len;
+
+  // il branch del while va bene e non crea problemi perchè il branch predictor indovina quasi sempre perchè il branch viene sempre preso tranne l'unica volta in cui c'è il cambio con la condizione di uscita
+  while (l<r) { // log_2(n) iterazioni
+    int m = (l+r)/2;
+
+    // per elimiare il branch vogliamo fare qualcosa del tipo q*v1 + (1-q)*v2
+    int q = (v[m] >= key);
+    r = q*m + (1-q)*r;
+    l = q*l + (1-q)*(m+1);
+  }
+
+  if (v[l] == key) {
+    return l;
+  } else {
   return -1;
+  }
 }
 
 
 int binary_search_branchless_prefetch(int * v, int len, int key) {
+  int l = 0;
+  int r = len;
+
+  // il branch del while va bene e non crea problemi perchè il branch predictor indovina quasi sempre perchè il branch viene sempre preso tranne l'unica volta in cui c'è il cambio con la condizione di uscita
+  while (l<r) { // log_2(n) iterazioni
+    int m = (l+r)/2;
+    // accederò a (l+r)/2 ma..
+    // nel primo caso: (l+m)/2
+    // nel secondo caso: (m+1 + r)/2
+    __builtin_prefetch(&v[(l+m)/2]);
+    __builtin_prefetch(&v[(m+1+r)/2]);
+    // per elimiare il branch vogliamo fare qualcosa del tipo q*v1 + (1-q)*v2
+    int q = (v[m] >= key);
+    r = q*m + (1-q)*r;
+    l = q*l + (1-q)*(m+1);
+  }
+
+  if (v[l] == key) {
+    return l;
+  } else {
   return -1;
+  }
 }
 
 
@@ -68,6 +121,10 @@ int main(int argc, char * argv[])
     float t;
     printf("%d\t", i);
     t = test_search(binary_search, 1<<i, search_size);
+    printf("%f\t", t);
+    t = test_search(binary_search_branchless, 1<<i, search_size);
+    printf("%f\t", t);
+    t = test_search(binary_search_branchless_prefetch, 1<<i, search_size);
     printf("%f\n", t);
   }
   return 0;
