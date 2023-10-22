@@ -1,5 +1,5 @@
 CC = gcc
-libmode = dinamic
+libmode = static
 LIB = lib
 HEADERS = ${wildcard *.h}
 
@@ -13,7 +13,7 @@ main: main.o ${LIB}/libbstd.so
 	${CC} -o $@ $< -L./${LIB} -lbstd
 endif
 
-main.o: main.c node.h tree.h
+main.o: main.c node.h tree.h print_tree.h
 	${CC} -c $<
 	
 %.o: %.c ${HEADERS}
@@ -26,11 +26,11 @@ endif
 ${LIB}:
 	mkdir $@
 
-${LIB}/libbst.a: tree.o node.o ${LIB}
-	ar rs $@ $< node.o
+${LIB}/libbst.a: tree.o node.o print_tree.o ${LIB}
+	ar rs $@ $< node.o print_tree.o
 
-${LIB}/libbstd.so: node.o tree.o ${LIB}
-	${CC} -shared -o $@ $< tree.o 	
+${LIB}/libbstd.so: node.o tree.o print_tree.o ${LIB}
+	${CC} -shared -o $@ $< tree.o print_tree.o
 
 .PHONY: clean clean-all
 clean: 
