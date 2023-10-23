@@ -7,9 +7,11 @@ all: main
 main: main.o merge.o
 	${CC} ${CFLAGS} -o $@ $^
 
+mergesort: mergesort.o merge.o 
+	${CC} ${CFLAGS} -o $@ $^
+
 %.o: %.c ${HEADERS}
 	${CC} ${CFLAGS} -c $<
-
 
 .PHONY: clean all
 
