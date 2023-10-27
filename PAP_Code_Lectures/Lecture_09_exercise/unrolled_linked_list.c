@@ -31,6 +31,9 @@ void ulst_add(unrolled_linked_list lst, int key)
     return;
   }
   unode new = (unode) malloc(sizeof(struct _unrolled_node));
+  for(int i=0; i<UNROLLED_SIZE; i++){
+    
+  }
   /*new->keys[] = key;
   new->valid[] = true;
   new->next = lst->head;
@@ -44,6 +47,7 @@ bool ulst_search(unrolled_linked_list lst, int key)
   }
   unode current = lst->head;
   while(current != NULL){
+    // for 
     if (current->keys == key){
       return true;
     }
