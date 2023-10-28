@@ -30,14 +30,35 @@ void ulst_add(unrolled_linked_list lst, int key)
   if (lst == NULL){
     return;
   }
-  unode new = (unode) malloc(sizeof(struct _unrolled_node));
-  for(int i=0; i<UNROLLED_SIZE; i++){
-    
+
+  unode current = lst -> head;
+  int i = 0;
+
+  if (current == NULL){
+    unode new = (unode) malloc(sizeof(struct _unrolled_node));
+    new -> keys[0] = key;
+    new -> valid[0] = true;
+    new -> next = lst->head;
+    lst -> head = new;
+    return;
   }
-  /*new->keys[] = key;
-  new->valid[] = true;
-  new->next = lst->head;
-  lst->head = new;*/
+
+  while (i < UNROLLED_SIZE){
+    if(current -> valid[i] == false){
+      current -> keys[i] = key;
+      current -> valid[i] = true;
+      return;
+    }
+    i++;
+  } 
+
+  if (i == UNROLLED_SIZE){
+    unode new = (unode) malloc(sizeof(struct _unrolled_node));
+    new -> keys[0] = key;
+    new -> valid[0] = true;
+    new -> next = lst->head;
+    lst -> head = new;
+  }
 }
 
 bool ulst_search(unrolled_linked_list lst, int key)
@@ -45,14 +66,22 @@ bool ulst_search(unrolled_linked_list lst, int key)
   if (lst == NULL){
     return false;
   }
+
+  int i = 0;
   unode current = lst->head;
   while(current != NULL){
-    // for 
-    if (current->keys == key){
-      return true;
+    while(i < UNROLLED_SIZE){ 
+      if (current->keys[i] == key){
+        return true;
+      }
+      i++;
     }
-    current = current->next;
+
+    if (i == UNROLLED_SIZE){
+      current = current->next; 
+    }
   }
+
   return false;
 }
 

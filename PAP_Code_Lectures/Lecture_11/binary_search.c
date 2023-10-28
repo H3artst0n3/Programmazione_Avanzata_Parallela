@@ -114,25 +114,27 @@ void test_reordering(int n) {
     printf("%d ", t[i]);
   }
   printf("\n");
+  free(a);
+  free(t);
 }
 
 int search_reordered(int * v, int len, int key) {
   int i = 1;
-  int pos = 0;
+  int pos = 0; // abbiamo messo zero perchè tanto non è una posizione valida in questo array
   while (i <= len) {
-    pos = i * (v[i] == key);
-    i = 2 * i + (v[i] < key);
+    pos = i * (v[i] == key); // equivale a if(v[i] == len){pos = i} 
+    i = 2 * i + (v[i] < key); // se la chiave è più grande del valore attuale noi andiamo vero destra quindi vogliamo sommare 1
   }
   return pos;
 }
 
 int search_reordered_prefetch(int * v, int len, int key) {
   int i = 1;
-  int pos = 0;
+  int pos = 0; 
   while (i <= len) {
     pos = i * (v[i] == key);
-    __builtin_prefetch(v + i * 16);
-    __builtin_prefetch(v + i * 16 + 15);
+    __builtin_prefetch(v + i * 16); // &v[i*16]
+    __builtin_prefetch(v + i * 16 + 15); // &v[i * 16 +15]
     i = 2 * i + (v[i] < key);
   }
   return pos;

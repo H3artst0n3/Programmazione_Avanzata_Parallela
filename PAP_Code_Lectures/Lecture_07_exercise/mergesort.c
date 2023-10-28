@@ -24,23 +24,31 @@ void merge_sort(int * v, int len, void (* m) (int *, int, int *, int, int *))
 
   for (int i = 1; i < len; i *= 2) { // per grandezza blocchi da ordinare
     for (int j = 0; j < len; j += 2*i) { // per passare gli indici dei blocchi da ordinare 
-      if (j+i >= len) { // ??
-	memcpy(&u[j], &v[j], (len - j) * sizeof(int)); // ??
+      if (j+i >= len) { // se il vettore originale non è divisibile per i e "avanzano" caselle
+	      memcpy(&u[j], &v[j], (len - j) * sizeof(int)); // copia i valori rimanenti 
       } else {
-	int end = (j + 2*i >= len)?(len -j - i):i; // ????
-  // passiamo alla funzione presa in input i due vettori da ordinare, quanto sono lunghi e dove mettere il risultato
-	m(&v[j], i, &v[j+i], end, &u[j]); 
+	      int end = (j + 2*i >= len)?(len -j - i):i; // lunghezza secondo vettore
+        /* comando sopra equivale a:
+        if (j + 2*i >= len){
+          end = len -j -i;
+        } else{
+          end = i;
+        }
+        */
+
+        // passiamo alla funzione presa in input i due vettori da ordinare, quanto sono lunghi e dove mettere il risultato
+	      m(&v[j], i, &v[j+i], end, &u[j]); 
       }
     }
-    tmp = v; // da qui fino a fine funzione: ??
-    v = u;
+    tmp = v; // scambio i puntatori in modo da avere v mezzo ordinato e prendere i nuovi blocchetti
+    v = u;   // ho bisogno di avere due aree di memoria distinte così da non avere problemi per l'ordinamento tramite m
     u = tmp;
   }
-  if (v != origin) {
-    memcpy(origin, v, len * sizeof(int));
-    free(v);
-  } else {
-    free(u);
+  if (v != origin) { // se il vettore passato in input è diverso da v ordinato
+    memcpy(origin, v, len * sizeof(int)); // copio in origin tutti i valori di v ordinati
+    free(v); // libero memoria occupata da v
+  } else { // se il vettore passato in input era già ordinato
+    free(u); // libero memoria occupata da u
   }
 }
 

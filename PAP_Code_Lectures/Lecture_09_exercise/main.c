@@ -67,9 +67,9 @@ void perf_unrolled_linked_list(int size, int repetitions)
 int main(int argc, char * argv[])
 {
   srand(time(NULL));
-  test_linked_list();
-  // test_unrolled_linked_list();
-  perf_linked_list(TEST_LIST_SIZE, 10);
-  // perf_unrolled_linked_list(TEST_LIST_SIZE, 10);
+  // test_linked_list();
+  test_unrolled_linked_list();
+  // perf_linked_list(TEST_LIST_SIZE, 10);
+  perf_unrolled_linked_list(TEST_LIST_SIZE, 10);
   return 0;
 }
