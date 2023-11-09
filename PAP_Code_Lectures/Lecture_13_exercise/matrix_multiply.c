@@ -13,13 +13,11 @@ void simple_multiply(float * A, float * B, float * C, int n)
 
 void transposed_multiply(float * A, float * B, float * C, int n)
 {
-  to_column_major(B, n);
-
-  // ricordati di cambiare gli indici
+  // non serve fare la trasposta perchè passiamo alla funzione direttamente la matrice trasposta 
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       for (int k = 0; k < n; k++) {
-	      C[i * n + j] += A[i * n + k] * B[k * n + j];
+	      C[i * n + j] += A[i * n + k] * B[j * n + k];
       }
     }
   }
