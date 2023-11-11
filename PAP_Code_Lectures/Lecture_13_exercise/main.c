@@ -41,11 +41,11 @@ int main (int argc, char * argv[])
   transposed_multiply(A, BT, C2, n);
   print_matrix(C2, n, false);
   printf("\n");
-  /* blocked_multiply(A, BT, C3, n); */
-  /* print_matrix(C3, n, false); */
-  /* printf("\n"); */
+  blocked_multiply(A, BT, C3, n);
+  print_matrix(C3, n, false);
+  printf("\n");
   printf("Time for standard multiplication: %f ms\n", test_multiply(simple_multiply));
   printf("Time for transposed multiplication: %f ms\n", test_multiply(transposed_multiply));
-  /* printf("Time for blocked multiplication: %f ms\n", test_multiply(blocked_multiply)); */
+  printf("Time for blocked multiplication: %f ms\n", test_multiply(blocked_multiply));
   return 0;
 }
