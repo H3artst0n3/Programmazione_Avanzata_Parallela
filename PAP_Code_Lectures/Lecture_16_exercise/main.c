@@ -24,7 +24,7 @@ int main(int argc, char * argv[])
     for (int x = 0; x < image.width; x++) {
       char * c = pixel_at(&image, x, y);
       if (c == NULL) {
-	printf("Error at x = %d y = %d\n", x, y);
+	      printf("Error at x = %d y = %d\n", x, y);
       }
       char * cdest = pixel_at(&target_image, x, y);
       *cdest = 255 - *c;
