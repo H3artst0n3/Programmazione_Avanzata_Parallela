@@ -6,7 +6,7 @@ OBJECTS = vector_sim.o main.o
 all: main
 
 main: ${OBJECTS} ${HEADERS}
-	${CC} ${CFLAGS} -o $@ ${OBJECTS}
+	${CC} ${CFLAGS} -o $@ ${OBJECTS} -lm
 
 %.o: %.c ${HEADERS}
 	${CC} ${CFLAGS} -c $<
