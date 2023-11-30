@@ -38,9 +38,9 @@ void print_matrix(float * M, int n, bool column_major)
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       if (column_major) {
-	printf("%2.3f ", M[j * n + i]);
+	      printf("%2.3f ", M[j * n + i]);
       } else {
-	printf("%2.3f ", M[i * n + j]);
+	      printf("%2.3f ", M[i * n + j]);
       }
     }
     printf("\n");

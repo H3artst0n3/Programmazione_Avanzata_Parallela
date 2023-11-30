@@ -5,7 +5,7 @@ void simple_multiply(float * A, float * B, float * C, int n)
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       for (int k = 0; k < n; k++) {
-	C[i * n + j] += A[i * n + k] * B[k * n + j];
+	      C[i * n + j] += A[i * n + k] * B[k * n + j];
       }
     }
   }
@@ -16,7 +16,7 @@ void transposed_multiply(float * A, float * B, float * C, int n)
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       for (int k = 0; k < n; k++) {
-	C[i * n + j] += A[i * n + k] * B[j * n + k];
+	      C[i * n + j] += A[i * n + k] * B[j * n + k];
       }
     }
   }
@@ -30,7 +30,7 @@ void kernel(float * A, float * B, float * C, int x, int dx, int y, int dy, int z
   for (int i = x; i < mx; i++) {
     for (int j = y; j < my; j++) {
       for (int k = z; k < mz; k++) {
-	C[i * n + j] += A[i * n + k] * B[j * n + k];
+	      C[i * n + j] += A[i * n + k] * B[j * n + k];
       }
     }
   }
@@ -45,7 +45,7 @@ void blocked_multiply(float * A, float * B, float * C, int n)
   for (int i = 0; i < n; i += s1) {
     for (int j = 0; j < n; j += s2) {
       for (int k = 0; k < n; k += s3) {
-	kernel(A, B, C, i, s1, j, s2, k, s3, n);
+	      kernel(A, B, C, i, s1, j, s2, k, s3, n);
       }
     }
   }
@@ -57,7 +57,7 @@ void omp_simple_multiply(float * A, float * B, float * C, int n)
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       for (int k = 0; k < n; k++) {
-	C[i * n + j] += A[i * n + k] * B[k * n + j];
+	      C[i * n + j] += A[i * n + k] * B[k * n + j];
       }
     }
   }
@@ -69,7 +69,7 @@ void omp_transposed_multiply(float * A, float * B, float * C, int n)
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       for (int k = 0; k < n; k++) {
-	C[i * n + j] += A[i * n + k] * B[j * n + k];
+	      C[i * n + j] += A[i * n + k] * B[j * n + k];
       }
     }
   }
@@ -85,7 +85,7 @@ void omp_blocked_multiply(float * A, float * B, float * C, int n)
   for (int i = 0; i < n; i += s1) {
     for (int j = 0; j < n; j += s2) {
       for (int k = 0; k < n; k += s3) {
-	kernel(A, B, C, i, s1, j, s2, k, s3, n);
+	      kernel(A, B, C, i, s1, j, s2, k, s3, n);
       }
     }
   }

@@ -1,11 +1,11 @@
-CC = gcc-13
+CC = gcc
 CFLAGS = -O3 -fopenmp -march=native -std=c17 -Wall -pedantic -fPIC
 HEADERS = ${wildcard *.h}
 OBJECTS = matrix.o matrix_multiply.o
 
-all: libmatrix.so
+all: libmatrix.dll
 
-libmatrix.so: ${OBJECTS} ${HEADERS}
+libmatrix.dll: ${OBJECTS} ${HEADERS}
 	${CC} ${CFLAGS} -o $@ -shared ${OBJECTS}
 
 %.o: %.c ${HEADERS}

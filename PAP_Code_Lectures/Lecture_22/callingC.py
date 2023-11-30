@@ -1,7 +1,7 @@
 import ctypes
 
 
-code = ctypes.cdll.LoadLibrary("code.so")
+code = ctypes.cdll.LoadLibrary("./code.dll")
 
 a = 2
 b = 4
