@@ -43,31 +43,56 @@ class CTree:
 class Node:
 
     def __init__(self, key, value):
-        pass
+        self.key = key
+        self.value = value
+        self.right = None
+        self.left = None
 
     def search(self, key):
-        pass
+        if self.key == key:
+            return self.value
+        elif (self.key < key) and (not self.right == None):
+            return self.right.search(key)
+        elif (self.key > key) and (not self.left == None):
+            return self.left.search(key)
+        
+        return None
 
     def insert(self, key, value):
-        pass
+        if self.key == key:
+            self.value = value
+        elif (self.key < key) and (self.right == None):
+            self.right = Node(key, value)
+        elif (self.key > key) and (self.left == None):
+            self.left = Node(key, value)
+        elif (self.key < key) and (not self.right == None):
+            self.right.insert(key, value)
+        elif (self.key > key) and (not self.left == None):
+            self.left.insert(key, value)
 
     def __str__(self):
-        pass
+        return f"({self.key} {self.left} {self.right})"
 
 
 class BinarySearchTree:
 
     def __init__(self):
-        pass
+        self.root = None
 
     def search(self, key):
-        pass
+        if not self.root is None:
+            return self.root.search(key)
+        
+        return None
 
     def insert(self, key, value):
-        pass
+        if not self.root is None:
+            self.root.insert(key, value)
+        else:
+            self.root = Node(key, value)
 
     def __str__(self):
-        pass
+        return str(self.root)
 
 
 if __name__ == "__main__":
