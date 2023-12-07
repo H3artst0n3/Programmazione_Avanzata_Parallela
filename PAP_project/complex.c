@@ -6,11 +6,10 @@
 #include "complex.h"
 
 complex power_two(complex z) {
-    complex z2;
-    z2->real = z->real * z->real - z->imaginary *z->imaginary;
-    z2->imaginary = 2 * z->real * z->imaginary;
-    
-    return z2;
+    float tmp = z->real;
+    z->real =  z->real * z->real - z->imaginary *z->imaginary;
+    z->imaginary = 2 * tmp * z->imaginary;
+    return z;
 }
 
 int modulus(complex z) {
