@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 
 #include "complex.h"
 #include "mandelbrot.h"
@@ -12,17 +14,9 @@ int main(int argc, char * argv[]) {
     }
 
     int max_iterations = atoi(argv[2]);
-
-    image mandelbrot = malloc(sizeof(struct image_pgm));
-
-    mandelbrot->filename = argv[1];
-    printf("file name: %s\n", mandelbrot->filename);
-    mandelbrot->height = atoi(argv[3]);
-    printf("file height: %d\n", mandelbrot->height);
-    mandelbrot->width = mandelbrot->height*1.5;
-    printf("file width: %d\n", mandelbrot->width);
-    write_image(mandelbrot, max_iterations);
-
-    free(mandelbrot);
+    int height = atoi(argv[3]);
+    char * filename = argv[1];
+    int width = height*1.5;
+    write_image(filename, height, width, max_iterations);
     return 0;
 }

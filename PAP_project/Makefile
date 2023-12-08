@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -O3 -Wall -std=c17 -pedantic
+CFLAGS = -O3 -Wall -std=c17 -pedantic -fopenmp
 HEADERS = ${wildcard *.h}
 OBJECTS = complex.o mandelbrot.o pgm.o main.o
 

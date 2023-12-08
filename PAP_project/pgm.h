@@ -8,11 +8,13 @@ struct image_pgm {
     int height;
     FILE * fd;
     char * filename;
+    char * data;
+    int size;
 };
 
 typedef struct image_pgm * image;
 
-void write_image(image img, int max_iterations);
+void write_image(char* filename, int height, int width, int max_iterations);
 
 
 #endif

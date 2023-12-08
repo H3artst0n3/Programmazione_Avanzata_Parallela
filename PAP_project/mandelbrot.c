@@ -7,8 +7,11 @@
 #define r 2
 
 int mandelbrot_computations(complex c, int max_iter) {
-    complex z = malloc(sizeof(struct num_complex));
-    complex zn = malloc(sizeof(struct num_complex));
+    complex z = create_complex(0,0);
+    complex zn = create_complex(0,0);
+    
+    z->imaginary=0;
+    z->real=0;
 
     for(int i = 0; i <= max_iter; i++){
         z = power_two(z);
@@ -23,6 +26,7 @@ int mandelbrot_computations(complex c, int max_iter) {
         }
 
     }
-
+    free_complex(z);
+    free_complex(zn);
     return max_iter;
 }
