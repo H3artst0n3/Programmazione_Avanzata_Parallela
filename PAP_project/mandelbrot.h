@@ -1,3 +1,4 @@
+// 
 #ifndef _MANDELBROT_H
 #define _MANDELBROT_H
 
