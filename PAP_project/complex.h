@@ -1,15 +1,16 @@
+// Angelica Rota SM3201142
 #ifndef _COMPLEX_H
 #define _COMPLEX_H
 
 #include <stdio.h>
 #include <math.h>
 
-struct num_complex {
+struct complex_number {
     float real;
     float imaginary;
 };
 
-typedef struct num_complex * complex;
+typedef struct complex_number * complex;
 
 complex create_complex(float real, float imaginary);
 void free_complex(complex num);

@@ -1,3 +1,4 @@
+// Angelica Rota SM3201142
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -5,8 +6,18 @@
 
 #include "complex.h"
 
+/*
+ * Function:  create_complex
+ * -------------------------
+ * Function that creates the struct complex number, if the memory allocation was successful
+ *
+ * real: real part of a complex number
+ * imaginary: imaginary part of a complex number
+ *
+ * returns: class complex
+ */
 complex create_complex(float real, float imaginary) {
-    complex num = (complex)malloc(sizeof(struct num_complex));
+    complex num = (complex)malloc(sizeof(struct complex_number));
     if (num != NULL) {
         num->real = real;
         num->imaginary = imaginary;
@@ -14,6 +25,11 @@ complex create_complex(float real, float imaginary) {
     return num;
 }
 
+/*
+ * Function:  free_complex
+ * -----------------------
+ * Function that deallocates the struct
+ */
 void free_complex(complex num) {
     if (num != NULL) {
         free(num);

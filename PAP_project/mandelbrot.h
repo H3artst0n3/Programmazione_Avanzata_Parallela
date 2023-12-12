@@ -1,4 +1,4 @@
-// 
+// Angelica Rota SM3201142
 #ifndef _MANDELBROT_H
 #define _MANDELBROT_H
 

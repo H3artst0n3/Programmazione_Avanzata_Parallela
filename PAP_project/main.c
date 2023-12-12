@@ -1,3 +1,4 @@
+// Angelica Rota SM3201142
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -13,10 +14,20 @@ int main(int argc, char * argv[]) {
         return -1;
     }
 
-    int max_iterations = atoi(argv[2]);
+    int max_iterations = atoi(argv[2]); 
     int height = atoi(argv[3]);
     char * filename = argv[1];
     int width = height*1.5;
-    write_image(filename, height, width, max_iterations);
+
+    image mandelbrot;
+    
+    // create_image(mandelbrot, filename, height, width, max_iterations);
+    printf("Function create_image called: message out the function\n\n");
+    create_image(&mandelbrot, filename, height, width);
+    printf("\nFunction create_image done successfully.\n\n");
+    printf("Function insert_pixel called: message out the function\n\n");
+    insert_pixel(mandelbrot, max_iterations);
+    printf("\nFunction insert_pixel done successfully\n");
+
     return 0;
 }

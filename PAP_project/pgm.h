@@ -1,3 +1,4 @@
+// Angelica Rota SM3201142
 #ifndef _PGM_H
 #define _PGM_H
 
@@ -10,11 +11,16 @@ struct image_pgm {
     char * filename;
     char * data;
     int size;
+    int format;
 };
 
 typedef struct image_pgm * image;
 
-void write_image(char* filename, int height, int width, int max_iterations);
+// int create_image(image img, char * filename, int height, int width, int max_iterations);
+// int write_image(image img, int max_iterations);
+// int write_image(char* filename, int height, int width, int max_iterations);
 
+int create_image(image *img, char *filename, int height, int width);
+int insert_pixel(image img, int max_iterations);
 
 #endif
