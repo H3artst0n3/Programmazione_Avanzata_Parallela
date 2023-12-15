@@ -7,6 +7,14 @@
 
 #define r 2
 
+/*
+ * Function:  mandelbrot_computations
+ * ----------------------------------
+ * Function that calculate the minimum n such that c is in the fractal of mandelbrot
+ * 
+ * complex c: complex number
+ * int max_iter: maximum iteration for the total computations
+ */
 int mandelbrot_computations(complex c, int max_iter) {
     complex z = create_complex(0,0);
     complex zn = create_complex(0,0);
@@ -15,7 +23,7 @@ int mandelbrot_computations(complex c, int max_iter) {
     z->real=0;
 
     for(int i = 0; i <= max_iter; i++){
-        z = power_two(z);
+        z = square(z);
         zn->real = z->real + c->real;
         zn->imaginary = z->imaginary + c->imaginary;
         

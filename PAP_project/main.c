@@ -21,13 +21,12 @@ int main(int argc, char * argv[]) {
 
     image mandelbrot;
     
-    // create_image(mandelbrot, filename, height, width, max_iterations);
-    printf("Function create_image called: message out the function\n\n");
+    // printf("Function create_image called: message out the function\n\n");
     create_image(&mandelbrot, filename, height, width);
-    printf("\nFunction create_image done successfully.\n\n");
-    printf("Function insert_pixel called: message out the function\n\n");
+    // printf("\nFunction create_image done successfully.\n\n");
+    // printf("Function insert_pixel called: message out the function\n\n");
     insert_pixel(mandelbrot, max_iterations);
-    printf("\nFunction insert_pixel done successfully\n");
+    // printf("\nFunction insert_pixel done successfully\n");
 
     return 0;
 }

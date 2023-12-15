@@ -15,3 +15,4 @@ main: ${OBJECTS} ${HEADERS}
 
 clean:
 	rm -rf *.o
+	rm main

@@ -14,7 +14,7 @@ typedef struct complex_number * complex;
 
 complex create_complex(float real, float imaginary);
 void free_complex(complex num);
-complex power_two(complex z);
+complex square(complex z);
 float modulus(complex z);
 
 #endif

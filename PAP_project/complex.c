@@ -7,12 +7,12 @@
 #include "complex.h"
 
 /*
- * Function:  create_complex
- * -------------------------
- * Function that creates the struct complex number, if the memory allocation was successful
+ * Function: create_complex
+ * ------------------------
+ * Function that creates the struct complex number
  *
- * real: real part of a complex number
- * imaginary: imaginary part of a complex number
+ * float real: real part of a complex number
+ * float imaginary: imaginary part of a complex number
  *
  * returns: class complex
  */
@@ -26,8 +26,8 @@ complex create_complex(float real, float imaginary) {
 }
 
 /*
- * Function:  free_complex
- * -----------------------
+ * Function: free_complex
+ * ----------------------
  * Function that deallocates the struct
  */
 void free_complex(complex num) {
@@ -36,13 +36,24 @@ void free_complex(complex num) {
     }
 }
 
-complex power_two(complex z) {
+/*
+ * Function: square
+ * ----------------
+ * Function that makes the square of a given complex number
+ * 
+ */
+complex square(complex z) {
     float tmp = z->real;
     z->real =  z->real * z->real - z->imaginary *z->imaginary;
     z->imaginary = 2 * tmp * z->imaginary;
     return z;
 }
 
+/*
+ * Function:  modulus
+ * ------------------
+ * function that makes the modulus of a given complex number
+ */
 float modulus(complex z) {
     float Re = z->real * z->real;
     float Im = z->imaginary * z->imaginary;
