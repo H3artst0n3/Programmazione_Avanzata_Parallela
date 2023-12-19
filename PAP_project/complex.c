@@ -7,14 +7,12 @@
 #include "complex.h"
 
 /*
- * Function: create_complex
- * ------------------------
  * Function that creates the struct complex number
+
+ * @param real: real part of a complex number
+ * @param imaginary: imaginary part of a complex number
  *
- * float real: real part of a complex number
- * float imaginary: imaginary part of a complex number
- *
- * returns: class complex
+ * @returns struct complex_number
  */
 complex create_complex(float real, float imaginary) {
     complex num = (complex)malloc(sizeof(struct complex_number));
@@ -26,8 +24,6 @@ complex create_complex(float real, float imaginary) {
 }
 
 /*
- * Function: free_complex
- * ----------------------
  * Function that deallocates the struct
  */
 void free_complex(complex num) {
@@ -37,10 +33,7 @@ void free_complex(complex num) {
 }
 
 /*
- * Function: square
- * ----------------
  * Function that makes the square of a given complex number
- * 
  */
 complex square(complex z) {
     float tmp = z->real;
@@ -50,9 +43,7 @@ complex square(complex z) {
 }
 
 /*
- * Function:  modulus
- * ------------------
- * function that makes the modulus of a given complex number
+ * Function that makes the modulus of a given complex number
  */
 float modulus(complex z) {
     float Re = z->real * z->real;
