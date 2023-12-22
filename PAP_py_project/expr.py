@@ -268,6 +268,95 @@ class Modulus(BinaryOp):
     def __str__(self):
         return f"(mod {self.args[1]} {self.args[0]})"
 
+class Greater(BinaryOp):
+    '''
+    Class representing greater
+
+    Methods:
+        op:      check if one element is greater then the other
+        __str__: string representation of greater
+    '''
+    def op(self, *args):
+        return args[1] > args[0]
+
+    def __str__(self):
+        return f"(> {self.args[1]} {self.args[0]})"
+
+
+class GreaterEqual(BinaryOp):
+    '''
+    Class representing greater
+
+    Methods:
+        op:      check if one element is greater then the other
+        __str__: string representation of greater
+    '''
+    def op(self, *args):
+        return args[1] >= args[0]
+
+    def __str__(self):
+        return f"(>= {self.args[1]} {self.args[0]})"
+
+
+class Equal(BinaryOp):
+    '''
+    Class representing greater
+
+    Methods:
+        op:      check if one element is greater then the other
+        __str__: string representation of greater
+    '''
+    def op(self, *args):
+        return args[1] == args[0]
+
+    def __str__(self):
+        return f"(= {self.args[1]} {self.args[0]})"
+
+
+class NotEqual(BinaryOp):
+    '''
+    Class representing greater
+
+    Methods:
+        op:      check if one element is greater then the other
+        __str__: string representation of greater
+    '''
+    def op(self, *args):
+        return args[1] != args[0]
+
+    def __str__(self):
+        return f"(!= {self.args[1]} {self.args[0]})"
+
+
+class Less(BinaryOp):
+    '''
+    Class representing greater
+
+    Methods:
+        op:      check if one element is greater then the other
+        __str__: string representation of greater
+    '''
+    def op(self, *args):
+        return args[1] < args[0]
+
+    def __str__(self):
+        return f"(< {self.args[1]} {self.args[0]})"
+
+
+class LessEqual(BinaryOp):
+    '''
+    Class representing greater
+
+    Methods:
+        op:      check if one element is greater then the other
+        __str__: string representation of greater
+    '''
+    def op(self, *args):
+        return args[1] <= args[0]
+
+    def __str__(self):
+        return f"(<= {self.args[1]} {self.args[0]})"
+
 
 class Reciprocal(UnaryOp):
     '''
@@ -305,26 +394,35 @@ class AbsoluteValue(UnaryOp):
 
 # dictionary mapping operators to their respective operation classes
 d = {"+": Addition, "*": Multiplication, "**": Power, "-": Subtraction,
-     "/": Division, "%": Modulus, "1/": Reciprocal, "abs": AbsoluteValue}
+     "/": Division, "%": Modulus, "1/": Reciprocal, "abs": AbsoluteValue,
+     ">": Greater, ">=": GreaterEqual, "=": Equal, "!=": NotEqual, "<": Less,
+     "<=": LessEqual}
 
-# simple example expression in RPN
-example = "2 3 +"
-e = Expression.from_program(example, d)
-print(e)
-res = e.evaluate({})
-print(res)
+# # simple example expression in RPN
+# example = "2 3 +"
+# e = Expression.from_program(example, d)
+# print(e)
+# res = e.evaluate({})
+# print(res)
 
 # expected output:
 # (+ 3 2)
 # 5
 
-# test example given by the exercise
-example_v2 = "2 3 + x * 6 5 - / abs 2 ** y 1/ + 1/"
-e_v2 = Expression.from_program(example_v2, d)
-print(e_v2)
-res = e_v2.evaluate({"x": 3, "y": 7})
-print(res)
+# # test example given by the exercise
+# example_v2 = "2 3 + x * 6 5 - / abs 2 ** y 1/ + 1/"
+# e_v2 = Expression.from_program(example_v2, d)
+# print(e_v2)
+# res_v2 = e_v2.evaluate({"x": 3, "y": 7})
+# print(res_v2)
 
 # expected output:
 # (1/ (+ (1/ y) (** 2 (abs (/ (- 5 6) (* x (+ 3 2)))))))
 # 0.84022932953024
+
+# simple check for booleans operations
+example_v3 = "3 3 ="
+e_v3 = Expression.from_program(example_v3, d)
+print(e_v3)
+res_v3 = e_v3.evaluate({})
+print(res_v3)
