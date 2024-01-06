@@ -1,3 +1,5 @@
+# Angelica Rota SM3201142
+
 from expressions import *
 
 ################################################################
@@ -215,13 +217,14 @@ class AbsoluteValue(UnaryOp):
     def __str__(self):
         return f"(abs {self.args[0]})"
 
+
 ################################################################
 ###################### Variable definition #####################
 ################################################################
     
-class Alloc(Expression):
-    def __init__(self, name):
-        self.name = name
+class Alloc(UnaryOp):
+    def __init__(self, *args):
+        self.name = args[0][0].name
     
     def evaluate(self, env):
         env[self.name] = 0
@@ -230,22 +233,26 @@ class Alloc(Expression):
     def __str__(self):
         return f"alloc {self.name}"
     
-class Valloc(Expression):
-    def __init__(self, name, n):
-        self.name = name
-        self.n = n.evaluate({})
+class Valloc(BinaryOp):
+    def __init__(self, *args):
+        self.name = args[0][1]
+        self.n = args[0][0].evaluate({})
 
     def evaluate(self, env):
         env[self.name] = [0] * self.n
+        print("valloc")
+        print(f"nome: {self.name}, N: {self.n}")
+        print(f"env: {env.get(self.name)}, is_list: {isinstance(env.get(self.name), list)}")
+        print(env[self.name])
         return env[self.name]
 
     def __str__(self):
         return f"valloc {self.name} {self.n}"
     
-class Setq(Expression):
-    def __init__(self, name, expr):
-        self.name = name
-        self.expr = expr
+class Setq(BinaryOp):
+    def __init__(self, *args):
+        self.name = args[0][1]
+        self.expr = args[0][0]
 
     def evaluate(self, env):
         value = self.expr.evaluate(env)
@@ -255,18 +262,73 @@ class Setq(Expression):
     def __str__(self):
         return f"setq {self.name} {self.expr}"
     
-class Setv(Expression):
-    def __init__(self, n, name, expr):
-        self.n = n.evaluate({})
-        self.name = name
-        self.expr = expr
+class Setv(TernaryOp):
+    def __init__(self, *args):
+        self.name = args[0][2]
+        self.n = args[0][1].evaluate({})
+        self.expr = args[0][0]
 
     def evaluate(self, env):
         value = self.expr.evaluate(env)
 
-        if self.name in env:
+        print("Setv")
+        print(f"nome: {self.name}, N: {self.n}")
+        print(f"env: {env.get(self.name)}, is_list: {isinstance(env.get(self.name), list)}")
+        if self.name in env and isinstance(env[self.name], list) and 0 <= self.n < len(env[self.name]):
+            # Se la variabile esiste già nell'ambiente ed è una lista e la posizione è valida
             env[self.name][self.n] = value
             return env[self.name]
+        else:
+            return None
     
     def __str__(self):
-        return f"setv {self.n} {self.name} {self.expr}"
+        return f"setv {self.name} {self.n} {self.expr}"
+    
+
+################################################################
+############ Management of sequences of expressions ############
+################################################################
+
+class Prog2(BinaryOp):
+    def __init__(self, *args):
+        self.expr1 = args[0][1]
+        self.expr2= args[0][0]
+    
+    def evaluate(self, env):
+        self.expr1.evaluate(env)
+        return self.expr2.evaluate(env)
+    
+    def __str__(self):
+        return f"prog2 {self.expr1} {self.expr2}"
+
+
+class Prog3(TernaryOp):
+    def __init__(self, *args):
+        self.expr1 = args[0][2]
+        self.expr2 = args[0][1]
+        self.expr3= args[0][0]
+    
+    def evaluate(self, env):
+        self.expr1.evaluate(env)
+        self.expr2.evaluate(env)
+        return self.expr3.evaluate(env)
+    
+    def __str__(self):
+        return f"prog3 {self.expr1} {self.expr2} {self.expr3}"
+    
+
+class Prog4(QuaternaryOp):
+    def __init__(self, *args):
+        self.expr1 = args[0][3]
+        self.expr2 = args[0][2]
+        self.expr3 = args[0][1]
+        self.expr4= args[0][0]
+    
+    def evaluate(self, env):
+        self.expr1.evaluate(env)
+        self.expr2.evaluate(env)
+        self.expr3.evaluate(env)
+        return self.expr4.evaluate(env)
+    
+    def __str__(self):
+        return f"prog4 {self.expr1} {self.expr2} {self.expr3} {self.expr4}"

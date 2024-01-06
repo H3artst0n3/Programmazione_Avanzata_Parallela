@@ -1,7 +1,6 @@
-# custom exception for an empty stack
-class EmptyStackException(Exception):
-    pass
+# Angelica Rota SM3201142
 
+from exceptions import * 
 
 class Stack:
     '''
@@ -50,8 +49,10 @@ class Expression:
         stack = Stack()
         tokens = text.split()
 
+        # print(tokens)
+
         for token in tokens:
-            print(token)
+            # print(token)
             if token in dispatch:
                 # fetch the corresponding operation class from the dispatch dictionary
                 op_class = dispatch[token]
@@ -67,29 +68,30 @@ class Expression:
                         arg2 = stack.pop()
                         arg1 = stack.pop()
                         stack.push(op_class([arg1, arg2]))
-                # if it is not an operation, it's a variable or a constant
-                elif issubclass(op_class, Expression):
-                    if token == "alloc":
-                        var_name = stack.pop()
-                        stack.push(op_class(var_name))
-                    elif token == "valloc":
-                        var_name = stack.pop()
-                        n = stack.pop()
-                        stack.push(op_class(var_name, n))
-                    elif token == "setq":
-                        var_name = stack.pop()
-                        expr = stack.pop()
-                        stack.push(op_class(var_name, expr))
-                    elif token == "setv":
-                        var_name = stack.pop()
-                        n = stack.pop()
-                        expr = stack.pop()
-                        stack.push(op_class(var_name, n, expr))
+                    # if it is a ternary operation pop of three elements
+                    elif op_class.arity == 3:
+                        arg3 = stack.pop()
+                        arg2 = stack.pop()
+                        arg1 = stack.pop()
+                        stack.push(op_class([arg1, arg2, arg3]))
+                    # if it is a quaternary operation pop of four elements
+                    elif op_class.arity == 4:
+                        arg4 = stack.pop()
+                        arg3 = stack.pop()
+                        arg2 = stack.pop()
+                        arg1 = stack.pop()
+                        stack.push(op_class([arg1, arg2, arg3, arg4]))
+                        
+                #     if token == "prog2":
+                #         # get the number of expressions from "progN"
+                #         n = int(token[4:]) 
+                #         expressions = [stack.pop() for expr in range(n)][::-1]
+                #         # stack.push(Prog(expressions, n=n))
+                    
             # if the token is not in the dispatch, it's a value (constant or variable)       
             else:
                 try:
                     value = int(token)
-
                     # push as a constant
                     stack.push(Constant(value))
                 except ValueError:
@@ -108,11 +110,6 @@ class Expression:
         raise NotImplementedError("Subclass must implement __str__ method")
 
 
-# custom exception for an empty stack
-class MissingVariableException(Exception):
-    pass
-
-
 class Variable(Expression):
     '''
     Variable class representing a variable in the expression
@@ -126,6 +123,7 @@ class Variable(Expression):
         self.name = name
 
     def evaluate(self, env):
+        print(self.name)
         if self.name in env:
             return env[self.name]
         else:
@@ -174,14 +172,29 @@ class Operation(Expression):
         raise NotImplementedError("Subclass must implement op method")
 
 
+class UnaryOp(Operation):
+    '''
+    Class representing unary operations
+    '''
+    arity = 1
+
+
 class BinaryOp(Operation):
     '''
     Class representing binary operations
     '''
     arity = 2
 
-class UnaryOp(Operation):
+
+class TernaryOp(Operation):
     '''
     Class representing unary operations
     '''
-    arity = 1
+    arity = 3
+
+
+class QuaternaryOp(Operation):
+    '''
+    Class representing unary operations
+    '''
+    arity = 4

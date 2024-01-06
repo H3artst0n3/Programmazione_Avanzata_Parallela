@@ -1,4 +1,4 @@
-# Angelica Rota SM320142
+# Angelica Rota SM3201142
 
 from operations import *
 from expressions import *
@@ -7,7 +7,8 @@ from expressions import *
 d = {"+": Addition, "*": Multiplication, "**": Power, "-": Subtraction,
      "/": Division, "%": Modulus, "1/": Reciprocal, "abs": AbsoluteValue,
      ">": Greater, ">=": GreaterEqual, "=": Equal, "!=": NotEqual, "<": Less,
-     "<=": LessEqual, "alloc": Alloc, "valloc": Valloc, "setq": Setq, "setv": Setv}
+     "<=": LessEqual, "alloc": Alloc, "valloc": Valloc, "setq": Setq, "setv": Setv,
+     "prog2": Prog2, "prog3": Prog3, "prog4": Prog4}
 
 # # simple example expression in RPN
 # example = "2 3 +"
@@ -39,8 +40,15 @@ d = {"+": Addition, "*": Multiplication, "**": Power, "-": Subtraction,
 # print(res_v3)
 
 # # simple check for variable definition
-# example_v4 = "3 3 + x valloc"
+# example_v4 = "3 2 + 2 x setv"
 # e_v4 = Expression.from_program(example_v4, d)
 # print(e_v4)
 # res_v4 = e_v4.evaluate({})
 # print(res_v4)
+
+# simple check for management of sequences of expressions
+example_v5 = "3 2 + 1 x setv 5 x valloc prog2"
+e_v5 = Expression.from_program(example_v5, d)
+print(e_v5)
+res_v5 = e_v5.evaluate({})
+print(res_v5)
