@@ -15,7 +15,7 @@
  * Function that creates the file and populates the image struct
  * 
  * @param img: image struct that we want to populate
- * @param filename: name of the file taht we want to create
+ * @param filename: name of the file that we want to create
  * @param height: image height
  * @param width: image width
  * 
@@ -27,7 +27,7 @@ int create_image(image *img, char *filename, int height, int width) {
     // allocating memory for image
     *img = malloc(sizeof(struct image_pgm));
     if (*img == NULL) {
-        perror("Error allocating memory for image");
+        perror("Mess It Up. Error allocating memory for image.\n");
         return -1;
     }
 
@@ -37,7 +37,7 @@ int create_image(image *img, char *filename, int height, int width) {
     // opening the image and checking if there have been any errors
     (*img)->fd = fopen((*img)->filename, "w+");
     if ((*img)->fd == NULL) {
-        perror("Error opening file");
+        perror("You Can't Always Get What You Want. Error opening file.\n");
         free(*img);
         return -2;
     }
@@ -54,7 +54,7 @@ int create_image(image *img, char *filename, int height, int width) {
     
     // adjusting the file length
     if (ftruncate(fileno((*img)->fd), (*img)->size) == -1) {
-        perror("Error truncating file");
+        perror("Error truncating file\n");
         fclose((*img)->fd);
         free(*img);
         return -3;
@@ -63,7 +63,7 @@ int create_image(image *img, char *filename, int height, int width) {
     // mapping memory for the size of the file
     (*img)->data = mmap(NULL, (*img)->size, PROT_READ | PROT_WRITE, MAP_SHARED, fileno((*img)->fd), 0);
     if ((*img)->data == MAP_FAILED) {
-        perror("Error mapping memory");
+        perror("Let's Spend The Night Together. Error mapping memory\n");
         fclose((*img)->fd);
         free(*img);
         return -4;
@@ -84,6 +84,7 @@ int create_image(image *img, char *filename, int height, int width) {
  */
 int insert_pixel(image img, int max_iterations) {
     
+    printf("Paint It, Black.\n");
     // using openMP to parallelize for loops dynamically
     #pragma omp parallel for collapse(2) schedule(dynamic)
     for (int row = 0; row < img->height; row++) {
@@ -109,7 +110,7 @@ int insert_pixel(image img, int max_iterations) {
 
     // deallocating the mapped data
     if (munmap(img->data, img->size) == -1) {
-        perror("Error unmapping memory");
+        perror("Error unmapping memory.\n");
         fclose(img->fd);
         free(img);
         return -5;
@@ -118,6 +119,6 @@ int insert_pixel(image img, int max_iterations) {
     // if here all done successfully! Deallocating the image struct and close the file
     fclose(img->fd);
     free(img);
-    printf("Image done and saved successfully.\n");
+    printf("Satisfaction. Image done and saved successfully.\n");
     return 0;
 }

@@ -15,4 +15,8 @@ main: ${OBJECTS} ${HEADERS}
 
 clean:
 	rm -rf *.o
+
+clean-all:
+	rm -rf *.o 
 	rm main
+	rm *.pgm

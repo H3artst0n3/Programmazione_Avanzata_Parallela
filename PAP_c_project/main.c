@@ -8,7 +8,7 @@
 
 int main(int argc, char * argv[]) {
     if (argc < 4){
-        printf("Insufficient arguments\n");
+        printf("Insufficient arguments. Depending on You.\n");
         return -1;
     }
 
@@ -20,10 +20,14 @@ int main(int argc, char * argv[]) {
 
     // creating mandelbrot image struct
     image mandelbrot;
+
+    printf("Start Me Up.\n");
     
     // function calls for creating the image and inserting pixels
     create_image(&mandelbrot, filename, height, width);
     insert_pixel(mandelbrot, max_iterations);
+
+    printf("Sweet Sounds of Heaven.\n");
 
     return 0;
 }

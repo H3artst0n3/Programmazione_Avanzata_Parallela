@@ -37,7 +37,7 @@ class Expression:
 
     Methods:
         from_program: takes a sequence of tokens and constructs an expression 
-        tree according to the Reverse Polish Notation (RPN)
+                      tree according to the Reverse Polish Notation (RPN)
     '''
     def __init__(self):
         # force subclasses to implement this method
@@ -49,45 +49,32 @@ class Expression:
         stack = Stack()
         tokens = text.split()
 
-        # print(tokens)
-
         for token in tokens:
-            # print(token)
             if token in dispatch:
                 # fetch the corresponding operation class from the dispatch dictionary
                 op_class = dispatch[token]
 
-                # check if the operation is a subclass of Operation
                 if issubclass(op_class, Operation):
-                    # if it is a unary operation pop of one element 
-                    if op_class.arity == 1:
+                    if op_class.arity == 0:
+                        stack.push(op_class())
+                    elif op_class.arity == 1:
                         arg = stack.pop()
                         stack.push(op_class([arg]))
-                    # if it is a binary operation pop of two elements
                     elif op_class.arity == 2:
                         arg2 = stack.pop()
                         arg1 = stack.pop()
                         stack.push(op_class([arg1, arg2]))
-                    # if it is a ternary operation pop of three elements
                     elif op_class.arity == 3:
                         arg3 = stack.pop()
                         arg2 = stack.pop()
                         arg1 = stack.pop()
                         stack.push(op_class([arg1, arg2, arg3]))
-                    # if it is a quaternary operation pop of four elements
                     elif op_class.arity == 4:
                         arg4 = stack.pop()
                         arg3 = stack.pop()
                         arg2 = stack.pop()
                         arg1 = stack.pop()
-                        stack.push(op_class([arg1, arg2, arg3, arg4]))
-                        
-                #     if token == "prog2":
-                #         # get the number of expressions from "progN"
-                #         n = int(token[4:]) 
-                #         expressions = [stack.pop() for expr in range(n)][::-1]
-                #         # stack.push(Prog(expressions, n=n))
-                    
+                        stack.push(op_class([arg1, arg2, arg3, arg4]))                    
             # if the token is not in the dispatch, it's a value (constant or variable)       
             else:
                 try:
@@ -98,15 +85,12 @@ class Expression:
                     # push as a variable 
                     stack.push(Variable(token))
 
-        # return the final resault of the expression
         return stack.pop()
 
     def evaluate(self, env):
-        # force subclasses to implement this method
         raise NotImplementedError("Subclass must implement evaluate method")
     
     def __str__(self):
-        # force subclasses to implement this method
         raise NotImplementedError("Subclass must implement __str__ method")
 
 
@@ -123,7 +107,6 @@ class Variable(Expression):
         self.name = name
 
     def evaluate(self, env):
-        print(self.name)
         if self.name in env:
             return env[self.name]
         else:
@@ -162,14 +145,26 @@ class Operation(Expression):
     '''
     def __init__(self, args):
         self.args = args
+        
 
     def evaluate(self, env):
         evaluated_args = [arg.evaluate(env) for arg in self.args]
         return self.op(*evaluated_args)
 
     def op(self, *args):
-        # force subclasses to implement this method
         raise NotImplementedError("Subclass must implement op method")
+
+
+class NoOperation(Operation):
+    '''
+    Class representing no operation
+    '''
+    arity = 0
+
+    def __init__(self, args):
+        if not self.arity == len(args):
+            raise ExprException(f"Mismatched number of arguments: zero arguments required. Yours: {len(args)}")
+        super().__init__(args)
 
 
 class UnaryOp(Operation):
@@ -178,12 +173,22 @@ class UnaryOp(Operation):
     '''
     arity = 1
 
+    def __init__(self, args):
+        if not self.arity == len(args):
+            raise ExprException(f"Mismatched number of arguments: one argument required. Yours: {len(args)}")
+        super().__init__(args)
+
 
 class BinaryOp(Operation):
     '''
     Class representing binary operations
     '''
     arity = 2
+
+    def __init__(self, args):
+        if not self.arity == len(args):
+            raise ExprException(f"Mismatched number of arguments: two arguments required. Yours: {len(args)}")
+        super().__init__(args)
 
 
 class TernaryOp(Operation):
@@ -192,9 +197,19 @@ class TernaryOp(Operation):
     '''
     arity = 3
 
+    def __init__(self, args):
+        if not self.arity == len(args):
+            raise ExprException(f"Mismatched number of arguments: three arguments required. Yours: {len(args)}")
+        super().__init__(args)
+
 
 class QuaternaryOp(Operation):
     '''
     Class representing unary operations
     '''
     arity = 4
+
+    def __init__(self, args):
+        if not self.arity == len(args):
+            raise ExprException(f"Mismatched number of arguments: four arguments required. Yours: {len(args)}")
+        super().__init__(args)
